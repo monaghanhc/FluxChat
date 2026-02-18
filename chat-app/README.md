@@ -117,6 +117,9 @@ Runs API with in-memory MongoDB and web app for local smoke/e2e workflow.
 - `VITE_SOCKET_URL` (Render API URL, same origin as Socket.IO server)
 
 ## Deployment (Click-by-click)
+One-click links:
+- Render (free backend): https://render.com/deploy?repo=https://github.com/monaghanhc/FluxChat
+- Vercel (free frontend): https://vercel.com/new/clone?repository-url=https://github.com/monaghanhc/FluxChat&root-directory=chat-app
 ### A) MongoDB Atlas (free)
 1. Create Atlas account.
 2. Create free cluster.
@@ -124,12 +127,12 @@ Runs API with in-memory MongoDB and web app for local smoke/e2e workflow.
 4. Network Access -> allow Render egress (`0.0.0.0/0` for quick start, then tighten).
 5. Copy connection string and set `<password>`.
 
-### B) Render backend (`apps/api`)
+### B) Render backend (`@chat/api`)
 1. Push this repo to GitHub.
 2. Render -> New -> Web Service -> select repo.
-3. Root directory: `chat-app/apps/api`
-4. Build command: `pnpm install --frozen-lockfile && pnpm --filter @chat/shared build && pnpm build`
-5. Start command: `pnpm start`
+3. Root directory: `chat-app`
+4. Build command: `pnpm install --frozen-lockfile && pnpm --filter @chat/shared build && pnpm --filter @chat/api build`
+5. Start command: `pnpm --filter @chat/api start`
 6. Instance: Free.
 7. Add env vars:
    - `NODE_ENV=production`
@@ -143,12 +146,12 @@ Runs API with in-memory MongoDB and web app for local smoke/e2e workflow.
    - `MESSAGE_RATE_LIMIT_MAX=10`
 8. Deploy and verify `GET https://<render-domain>/health` returns `{ "ok": true }`.
 
-### C) Vercel frontend (`apps/web`)
+### C) Vercel frontend (`@chat/web`)
 1. Vercel -> New Project -> import same repo.
 2. Framework: Vite.
-3. Root directory: `chat-app/apps/web`.
-4. Build command: `pnpm build`
-5. Output directory: `dist`
+3. Root directory: `chat-app`.
+4. Build command: `pnpm --filter @chat/web build`
+5. Output directory: `apps/web/dist`
 6. Env vars:
    - `VITE_API_URL=https://<render-domain>`
    - `VITE_SOCKET_URL=https://<render-domain>`
@@ -183,3 +186,4 @@ Add deployment and app screenshots in `docs/screenshots/` and keep these links u
 - Avatar storage uses base64 in MongoDB (simple MVP tradeoff; not CDN-optimized).
 - Presence/typing state is in-memory per API instance (not multi-instance synchronized without Redis adapter).
 - Message chunk size warning exists in frontend production build due emoji picker bundle size.
+

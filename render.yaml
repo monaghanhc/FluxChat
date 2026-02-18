@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: fluxchat-api
+    runtime: node
+    plan: free
+    rootDir: chat-app
+    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @chat/shared build && pnpm --filter @chat/api build
+    startCommand: pnpm --filter @chat/api start
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: CLIENT_ORIGIN
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: AUTH_RATE_LIMIT_WINDOW_MS
+        value: 60000
+      - key: AUTH_RATE_LIMIT_MAX
+        value: 20
+      - key: MESSAGE_RATE_LIMIT_WINDOW_MS
+        value: 5000
+      - key: MESSAGE_RATE_LIMIT_MAX
+        value: 10

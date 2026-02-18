@@ -15,3 +15,4 @@
 - 2026-02-18: Local Docker MongoDB smoke test failed because Docker engine was unavailable in this environment; validated runtime using in-memory DB fallback (`API_STATUS=200`, `WEB_STATUS=200`) and retained docker workflow docs for standard local setup.
 - 2026-02-18: Addressed frontend reliability gaps by making room-create input controlled and preventing socket reconnect loops on room-state changes; also fixed create-room membership join ordering.
 - 2026-02-18: Expanded unit test suite; `MessageInput` tests initially timed out due fake-timer + user-event interaction. Reworked tests to use real timers for interaction flows and isolated fake timers to the debounce assertion via `fireEvent.change`.
+- 2026-02-18: Prepared free-tier deployment IaC and docs updates: added root `render.yaml`, `chat-app/vercel.json`, one-click Render/Vercel links, and corrected monorepo root/build commands for workspace-safe cloud builds.

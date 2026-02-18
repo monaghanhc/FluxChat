@@ -230,6 +230,9 @@ Runs:
 - `PUT /api/users/me`
 
 ## 11) Deployment Guide
+One-click links:
+- Render (free backend): https://render.com/deploy?repo=https://github.com/monaghanhc/FluxChat
+- Vercel (free frontend): https://vercel.com/new/clone?repository-url=https://github.com/monaghanhc/FluxChat&root-directory=chat-app
 ### MongoDB Atlas
 1. Create free cluster
 2. Create DB user
@@ -237,11 +240,11 @@ Runs:
 4. Copy URI
 
 ### Render (Backend)
-- Root directory: `chat-app/apps/api`
+- Root directory: `chat-app`
 - Build command:
-  `pnpm install --frozen-lockfile && pnpm --filter @chat/shared build && pnpm build`
+  `pnpm install --frozen-lockfile && pnpm --filter @chat/shared build && pnpm --filter @chat/api build`
 - Start command:
-  `pnpm start`
+  `pnpm --filter @chat/api start`
 - Required env vars:
   - `NODE_ENV=production`
   - `MONGODB_URI=<atlas-uri>`
@@ -250,9 +253,9 @@ Runs:
   - plus optional rate limit/JWT vars
 
 ### Vercel (Frontend)
-- Root directory: `chat-app/apps/web`
-- Build command: `pnpm build`
-- Output dir: `dist`
+- Root directory: `chat-app`
+- Build command: `pnpm --filter @chat/web build`
+- Output dir: `apps/web/dist`
 - Env vars:
   - `VITE_API_URL=https://<render-domain>`
   - `VITE_SOCKET_URL=https://<render-domain>`
@@ -285,3 +288,4 @@ Runs:
 - Architecture deep-dive: `docs/architecture.md`
 - Change/fix history: `docs/fix-log.md`
 - CI config: `.github/workflows/ci.yml`
+
