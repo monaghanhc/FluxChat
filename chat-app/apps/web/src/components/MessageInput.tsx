@@ -64,7 +64,7 @@ export const MessageInput = ({ disabled, onSend, onTypingStart, onTypingStop }: 
           onClick={() => setShowEmoji((prev) => !prev)}
           aria-label="Toggle emoji picker"
         >
-          ??
+          Emoji
         </button>
 
         <input

@@ -6,10 +6,12 @@ type RoomListProps = {
   activeRoomId: string | null;
   onSelect: (roomId: string) => void;
   onCreate: (name: string) => Promise<void>;
+  className?: string;
 };
 
-export const RoomList = ({ rooms, activeRoomId, onSelect, onCreate }: RoomListProps) => {
+export const RoomList = ({ rooms, activeRoomId, onSelect, onCreate, className }: RoomListProps) => {
   const [roomInput, setRoomInput] = useState('');
+  const sidebarClassName = className ? `sidebar ${className}` : 'sidebar';
 
   const handleCreate = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,9 +24,10 @@ export const RoomList = ({ rooms, activeRoomId, onSelect, onCreate }: RoomListPr
   };
 
   return (
-    <aside className="sidebar" data-testid="room-list">
+    <aside className={sidebarClassName} data-testid="room-list">
       <div className="sidebar-header">
         <h2>Rooms</h2>
+        <p>{rooms.length} available</p>
       </div>
 
       <form className="create-room-form" onSubmit={handleCreate}>

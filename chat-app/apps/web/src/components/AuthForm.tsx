@@ -42,6 +42,7 @@ export const AuthForm = ({ mode, loading, error, onModeChange, onSubmit }: AuthF
   return (
     <div className="auth-shell">
       <form className="auth-form" onSubmit={handleSubmit} data-testid="auth-form">
+        <p className="auth-brand">FluxChat</p>
         <h1>{title}</h1>
 
         <div className="auth-mode-toggle">

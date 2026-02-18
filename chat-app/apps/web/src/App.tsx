@@ -51,6 +51,9 @@ export const App = () => {
   >({});
   const [typingByRoom, setTypingByRoom] = useState<Record<string, string[]>>({});
   const [appError, setAppError] = useState<string | undefined>(undefined);
+  const [socketConnected, setSocketConnected] = useState(false);
+  const [isCompactViewport, setIsCompactViewport] = useState(false);
+  const [mobilePanels, setMobilePanels] = useState({ rooms: false, profile: false });
 
   const socketRef = useRef<FluxSocket | null>(null);
   const activeRoomRef = useRef<string | null>(null);
@@ -61,6 +64,38 @@ export const App = () => {
   const activeMessages = activeRoomId ? messagesByRoom[activeRoomId] ?? [] : [];
   const activePresence = activeRoomId ? presenceByRoom[activeRoomId] ?? [] : [];
   const activeTyping = activeRoomId ? typingByRoom[activeRoomId] ?? [] : [];
+
+  useEffect(() => {
+    const roomName = activeRoom?.name ? `#${activeRoom.name}` : 'Home';
+
+    if (!token || !user) {
+      document.title = 'FluxChat | Sign in';
+      return;
+    }
+
+    document.title = `${roomName} | FluxChat`;
+  }, [token, user, activeRoom?.name]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
+      return;
+    }
+
+    const query = window.matchMedia('(max-width: 760px)');
+    const updateViewport = () => setIsCompactViewport(query.matches);
+    updateViewport();
+
+    query.addEventListener('change', updateViewport);
+    return () => {
+      query.removeEventListener('change', updateViewport);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isCompactViewport) {
+      setMobilePanels({ rooms: false, profile: false });
+    }
+  }, [isCompactViewport]);
 
   useEffect(() => {
     activeRoomRef.current = activeRoomId;
@@ -118,6 +153,7 @@ export const App = () => {
     if (!token || !user) {
       socketRef.current?.disconnect();
       socketRef.current = null;
+      setSocketConnected(false);
       return;
     }
 
@@ -125,9 +161,13 @@ export const App = () => {
     socketRef.current = socket;
 
     socket.on('connect', () => {
+      setSocketConnected(true);
       joinedRoomIdsRef.current.forEach((roomId) => {
         socket.emit('room:join', { roomId });
       });
+    });
+    socket.on('disconnect', () => {
+      setSocketConnected(false);
     });
 
     socket.on('room:presence', ({ roomId, usersOnline }) => {
@@ -289,6 +329,9 @@ export const App = () => {
     const select = async () => {
       await ensureRoomJoined(roomId);
       setActiveRoomId(roomId);
+      if (isCompactViewport) {
+        setMobilePanels({ rooms: false, profile: false });
+      }
       socketRef.current?.emit('room:join', { roomId });
     };
 
@@ -318,6 +361,9 @@ export const App = () => {
 
     await ensureRoomJoined(created.room.id);
     setActiveRoomId(created.room.id);
+    if (isCompactViewport) {
+      setMobilePanels({ rooms: false, profile: false });
+    }
     socketRef.current?.emit('room:join', { roomId: created.room.id });
   };
 
@@ -406,6 +452,26 @@ export const App = () => {
     setActiveRoomId(null);
     setPresenceByRoom({});
     socketRef.current?.disconnect();
+    setSocketConnected(false);
+    setMobilePanels({ rooms: false, profile: false });
+  };
+
+  const closeMobilePanels = () => {
+    setMobilePanels({ rooms: false, profile: false });
+  };
+
+  const toggleRoomsPanel = () => {
+    setMobilePanels((previous) => ({
+      rooms: !previous.rooms,
+      profile: false,
+    }));
+  };
+
+  const toggleProfilePanel = () => {
+    setMobilePanels((previous) => ({
+      rooms: false,
+      profile: !previous.profile,
+    }));
   };
 
   if (!token || !user) {
@@ -423,9 +489,31 @@ export const App = () => {
   return (
     <div className="app-shell">
       <header className="app-topbar">
-        <h1>FluxChat</h1>
-        <div>
-          <span>{user.displayName}</span>
+        <div className="topbar-brand">
+          <h1>FluxChat</h1>
+          <p>{activeRoom ? `Room #${activeRoom.name}` : 'Realtime team collaboration'}</p>
+        </div>
+
+        <div className="topbar-actions">
+          <span
+            className={socketConnected ? 'status-pill is-online' : 'status-pill is-offline'}
+            aria-live="polite"
+          >
+            {socketConnected ? 'Live' : 'Reconnecting'}
+          </span>
+
+          {isCompactViewport ? (
+            <>
+              <button type="button" className="mobile-panel-button" onClick={toggleRoomsPanel}>
+                Rooms
+              </button>
+              <button type="button" className="mobile-panel-button" onClick={toggleProfilePanel}>
+                Profile
+              </button>
+            </>
+          ) : null}
+
+          <span className="topbar-user">{user.displayName}</span>
           <button onClick={handleLogout} type="button">
             Logout
           </button>
@@ -433,11 +521,21 @@ export const App = () => {
       </header>
 
       <main className="app-main">
+        {isCompactViewport && (mobilePanels.rooms || mobilePanels.profile) ? (
+          <button
+            type="button"
+            aria-label="Close side panels"
+            className="mobile-backdrop"
+            onClick={closeMobilePanels}
+          />
+        ) : null}
+
         <RoomList
           rooms={rooms}
           activeRoomId={activeRoomId}
           onSelect={handleRoomSelect}
           onCreate={handleCreateRoom}
+          className={isCompactViewport ? (mobilePanels.rooms ? 'mobile-open' : 'mobile-collapsed') : ''}
         />
 
         <section className="chat-panel">
@@ -473,7 +571,9 @@ export const App = () => {
           {appError ? <p className="error app-error">{appError}</p> : null}
         </section>
 
-        <aside className="profile-sidebar">
+        <aside
+          className={`profile-sidebar ${isCompactViewport ? (mobilePanels.profile ? 'mobile-open' : 'mobile-collapsed') : ''}`}
+        >
           <h3>Profile</h3>
           <ProfileEditor displayName={user.displayName} onSave={handleProfileUpdate} />
         </aside>
