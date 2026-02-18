@@ -17,3 +17,4 @@
 - 2026-02-18: Expanded unit test suite; `MessageInput` tests initially timed out due fake-timer + user-event interaction. Reworked tests to use real timers for interaction flows and isolated fake timers to the debounce assertion via `fireEvent.change`.
 - 2026-02-18: Prepared free-tier deployment IaC and docs updates: added root `render.yaml`, `chat-app/vercel.json`, one-click Render/Vercel links, and corrected monorepo root/build commands for workspace-safe cloud builds.
 - 2026-02-18: UI/UX refresh for web app: added dynamic document titles, live connection status pill, responsive mobile room/profile drawers with overlay controls, improved topbar branding, and enhanced motion/focus/spacing styles for better accessibility and responsiveness.
+- 2026-02-18: Added API `db:ping` script (`apps/api/src/scripts/ping-atlas.ts`) equivalent to Atlas driver snippet using env-based URI; avoided hardcoding secrets in repository code.

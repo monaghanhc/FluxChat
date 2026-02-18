@@ -12,6 +12,7 @@
     "start": "node dist/server.js",
     "preseed": "pnpm --filter @chat/shared build",
     "seed": "tsx src/scripts/seed.ts",
+    "db:ping": "tsx src/scripts/ping-atlas.ts",
     "lint": "eslint \"src/**/*.ts\" \"tests/**/*.ts\"",
     "typecheck": "tsc -p tsconfig.typecheck.json --noEmit",
     "pretest": "pnpm --filter @chat/shared build",
@@ -26,6 +27,7 @@
     "express-rate-limit": "^7.4.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.11.0",
     "mongoose": "^8.7.1",
     "socket.io": "^4.8.0",
     "zod": "^3.23.8"
