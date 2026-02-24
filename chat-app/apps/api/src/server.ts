@@ -1,8 +1,8 @@
 import type { MongoMemoryServer } from 'mongodb-memory-server';
-import { createHttpServer } from './app';
-import { config } from './config';
-import { connectDb, disconnectDb } from './db';
-import { createSocketServer } from './socket/index';
+import { createHttpServer } from './app.js';
+import { config } from './config.js';
+import { connectDb, disconnectDb } from './db.js';
+import { createSocketServer } from './socket/index.js';
 
 let inMemoryMongo: MongoMemoryServer | null = null;
 
@@ -51,3 +51,4 @@ start().catch((error) => {
   console.error('Failed to start API', error);
   process.exit(1);
 });
+

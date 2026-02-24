@@ -1,0 +1,13 @@
+{
+  "name": "fluxchat-root",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -C chat-app dev",
+    "dev:e2e": "pnpm -C chat-app dev:e2e",
+    "build": "pnpm -C chat-app build",
+    "lint": "pnpm -C chat-app lint",
+    "typecheck": "pnpm -C chat-app typecheck",
+    "test": "pnpm -C chat-app test",
+    "seed": "pnpm -C chat-app seed"
+  }
+}

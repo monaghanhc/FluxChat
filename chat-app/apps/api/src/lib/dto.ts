@@ -1,5 +1,5 @@
 import type { MessageDto } from '@chat/shared';
-import { UserModel } from '../models/User';
+import { UserModel } from '../models/User.js';
 
 export const toUserDto = (user: {
   _id: { toString(): string };
@@ -34,3 +34,4 @@ export const toMessageDto = async (
     createdAt: message.createdAt.toISOString(),
   };
 };
+

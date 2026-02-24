@@ -1,4 +1,4 @@
-import { config } from '../config';
+import { config } from '../config.js';
 
 const messageHistory = new Map<string, number[]>();
 
@@ -21,3 +21,4 @@ export const checkMessageRateLimit = (userId: string): boolean => {
 export const resetMessageRateLimiter = (): void => {
   messageHistory.clear();
 };
+

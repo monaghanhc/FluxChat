@@ -1,7 +1,7 @@
 import type { NextFunction, Request, Response } from 'express';
-import { AppError } from '../lib/app-error';
-import { verifyJwt } from '../lib/jwt';
-import type { AuthedRequest } from '../types/express';
+import { AppError } from '../lib/app-error.js';
+import { verifyJwt } from '../lib/jwt.js';
+import type { AuthedRequest } from '../types/express.js';
 
 const extractBearerToken = (req: Request): string | null => {
   const authHeader = req.headers.authorization;
@@ -24,3 +24,4 @@ export const requireAuth = (req: Request, _res: Response, next: NextFunction): v
     return next(new AppError(401, 'UNAUTHORIZED', 'Invalid token'));
   }
 };
+

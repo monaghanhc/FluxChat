@@ -3,12 +3,12 @@ import cors from 'cors';
 import express from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
-import { config } from './config';
-import { authRouter } from './routes/auth';
-import { roomsRouter } from './routes/rooms';
-import { usersRouter } from './routes/users';
-import { errorHandler } from './middleware/error-handler';
-import { AppError } from './lib/app-error';
+import { config } from './config.js';
+import { authRouter } from './routes/auth.js';
+import { roomsRouter } from './routes/rooms.js';
+import { usersRouter } from './routes/users.js';
+import { errorHandler } from './middleware/error-handler.js';
+import { AppError } from './lib/app-error.js';
 
 const corsOptions: cors.CorsOptions = {
   origin(origin, callback) {
@@ -70,3 +70,4 @@ export const createHttpServer = (): { app: express.Express; server: http.Server 
   const server = http.createServer(app);
   return { app, server };
 };
+

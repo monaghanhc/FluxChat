@@ -1,13 +1,13 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { loginSchema, signupSchema } from '@chat/shared';
-import { AppError } from '../lib/app-error';
-import { asyncHandler } from '../lib/async-handler';
-import { signJwt } from '../lib/jwt';
-import { UserModel } from '../models/User';
-import { requireAuth } from '../middleware/auth';
-import type { AuthedRequest } from '../types/express';
-import { toUserDto } from '../lib/dto';
+import { AppError } from '../lib/app-error.js';
+import { asyncHandler } from '../lib/async-handler.js';
+import { signJwt } from '../lib/jwt.js';
+import { UserModel } from '../models/User.js';
+import { requireAuth } from '../middleware/auth.js';
+import type { AuthedRequest } from '../types/express.js';
+import { toUserDto } from '../lib/dto.js';
 
 export const authRouter = Router();
 
@@ -77,3 +77,4 @@ authRouter.get(
     res.json({ user: toUserDto(user) });
   }),
 );
+

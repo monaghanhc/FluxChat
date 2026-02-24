@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import type { NextFunction, Request, Response } from 'express';
 import { ZodError } from 'zod';
-import { AppError } from '../lib/app-error';
+import { AppError } from '../lib/app-error.js';
 
 const isProd = process.env.NODE_ENV === 'production';
 
@@ -56,3 +56,4 @@ export const errorHandler = (
     },
   });
 };
+

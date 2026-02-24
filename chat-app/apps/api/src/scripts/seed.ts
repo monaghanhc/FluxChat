@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
-import { config } from '../config';
-import { connectDb, disconnectDb } from '../db';
-import { UserModel } from '../models/User';
-import { RoomModel } from '../models/Room';
-import { MembershipModel } from '../models/Membership';
+import { config } from '../config.js';
+import { connectDb, disconnectDb } from '../db.js';
+import { UserModel } from '../models/User.js';
+import { RoomModel } from '../models/Room.js';
+import { MembershipModel } from '../models/Membership.js';
 
 const seed = async () => {
   await connectDb(config.mongoUri);
@@ -56,3 +56,4 @@ seed().catch(async (error) => {
   await disconnectDb();
   process.exit(1);
 });
+

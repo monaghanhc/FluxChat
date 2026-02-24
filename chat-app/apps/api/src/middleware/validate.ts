@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express';
 import { ZodError, type AnyZodObject } from 'zod';
-import { AppError } from '../lib/app-error';
+import { AppError } from '../lib/app-error.js';
 
 export const validateBody = (schema: AnyZodObject) => {
   return (req: Request, _res: Response, next: NextFunction): void => {
@@ -15,3 +15,4 @@ export const validateBody = (schema: AnyZodObject) => {
     }
   };
 };
+

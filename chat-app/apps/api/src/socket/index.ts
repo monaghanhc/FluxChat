@@ -2,14 +2,14 @@ import type http from 'node:http';
 import { Server } from 'socket.io';
 import { roomJoinSchema, sendMessageSchema } from '@chat/shared';
 import mongoose from 'mongoose';
-import { config } from '../config';
-import { verifyJwt } from '../lib/jwt';
-import { UserModel } from '../models/User';
-import { RoomModel } from '../models/Room';
-import { MembershipModel } from '../models/Membership';
-import { MessageModel } from '../models/Message';
-import { sanitizeMessageText } from '../lib/sanitize';
-import { checkMessageRateLimit } from '../lib/message-rate-limit';
+import { config } from '../config.js';
+import { verifyJwt } from '../lib/jwt.js';
+import { UserModel } from '../models/User.js';
+import { RoomModel } from '../models/Room.js';
+import { MembershipModel } from '../models/Membership.js';
+import { MessageModel } from '../models/Message.js';
+import { sanitizeMessageText } from '../lib/sanitize.js';
+import { checkMessageRateLimit } from '../lib/message-rate-limit.js';
 
 type SocketAuthedUser = {
   id: string;
@@ -346,3 +346,4 @@ export const createSocketServer = (httpServer: http.Server) => {
 
   return io;
 };
+

@@ -1,12 +1,12 @@
 import { Router } from 'express';
 import { updateProfileSchema } from '@chat/shared';
-import { asyncHandler } from '../lib/async-handler';
-import { AppError } from '../lib/app-error';
-import { requireAuth } from '../middleware/auth';
-import type { AuthedRequest } from '../types/express';
-import { UserModel } from '../models/User';
-import { isValidAvatarDataUrl } from '../lib/sanitize';
-import { toUserDto } from '../lib/dto';
+import { asyncHandler } from '../lib/async-handler.js';
+import { AppError } from '../lib/app-error.js';
+import { requireAuth } from '../middleware/auth.js';
+import type { AuthedRequest } from '../types/express.js';
+import { UserModel } from '../models/User.js';
+import { isValidAvatarDataUrl } from '../lib/sanitize.js';
+import { toUserDto } from '../lib/dto.js';
 
 export const usersRouter = Router();
 
@@ -37,3 +37,4 @@ usersRouter.put(
     res.json({ user: toUserDto(user) });
   }),
 );
+

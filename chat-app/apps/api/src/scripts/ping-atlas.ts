@@ -1,5 +1,5 @@
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import { config } from '../config';
+import { config } from '../config.js';
 
 const run = async (): Promise<void> => {
   const client = new MongoClient(config.mongoUri, {
@@ -25,3 +25,4 @@ run().catch((error: unknown) => {
   console.error('MongoDB ping failed', error);
   process.exit(1);
 });
+

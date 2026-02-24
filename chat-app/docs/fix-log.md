@@ -18,3 +18,4 @@
 - 2026-02-18: Prepared free-tier deployment IaC and docs updates: added root `render.yaml`, `chat-app/vercel.json`, one-click Render/Vercel links, and corrected monorepo root/build commands for workspace-safe cloud builds.
 - 2026-02-18: UI/UX refresh for web app: added dynamic document titles, live connection status pill, responsive mobile room/profile drawers with overlay controls, improved topbar branding, and enhanced motion/focus/spacing styles for better accessibility and responsiveness.
 - 2026-02-18: Added API `db:ping` script (`apps/api/src/scripts/ping-atlas.ts`) equivalent to Atlas driver snippet using env-based URI; avoided hardcoding secrets in repository code.
+- 2026-02-18: `@chat/api` runtime start failed (`ERR_MODULE_NOT_FOUND` for `dist/app` under Node ESM); updated all relative imports in `apps/api/src` to explicit `.js` specifiers so compiled output resolves correctly on local and Render starts.

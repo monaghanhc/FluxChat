@@ -1,15 +1,15 @@
 import { Router } from 'express';
 import mongoose from 'mongoose';
 import { createRoomSchema, paginationSchema, sendMessageSchema } from '@chat/shared';
-import { asyncHandler } from '../lib/async-handler';
-import { AppError } from '../lib/app-error';
-import { requireAuth } from '../middleware/auth';
-import type { AuthedRequest } from '../types/express';
-import { RoomModel } from '../models/Room';
-import { MembershipModel } from '../models/Membership';
-import { MessageModel } from '../models/Message';
-import { sanitizeMessageText } from '../lib/sanitize';
-import { toMessageDto } from '../lib/dto';
+import { asyncHandler } from '../lib/async-handler.js';
+import { AppError } from '../lib/app-error.js';
+import { requireAuth } from '../middleware/auth.js';
+import type { AuthedRequest } from '../types/express.js';
+import { RoomModel } from '../models/Room.js';
+import { MembershipModel } from '../models/Membership.js';
+import { MessageModel } from '../models/Message.js';
+import { sanitizeMessageText } from '../lib/sanitize.js';
+import { toMessageDto } from '../lib/dto.js';
 
 const DEFAULT_MESSAGE_PAGE_SIZE = 20;
 
@@ -227,3 +227,4 @@ roomsRouter.post(
     });
   }),
 );
+
